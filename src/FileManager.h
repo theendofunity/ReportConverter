@@ -1,16 +1,21 @@
 #ifndef FILEMANAGER_H
 #define FILEMANAGER_H
 
+#include <QObject>
+
 #include <QJsonDocument>
 
-class FileManager
+class FileManager : public QObject
 {
+    Q_OBJECT
 public:
-    FileManager();
+    FileManager(QObject *parent = nullptr);
 
     void readFile();
-    void writeFile(QJsonDocument &doc);
+    void writeFile(QJsonObject &obj);
 
+signals:
+    void newObject(const QJsonObject &object);
 };
 
 #endif // FILEMANAGER_H

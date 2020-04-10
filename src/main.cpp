@@ -1,13 +1,13 @@
 #include <QCoreApplication>
 
-#include <FileManager.h>
+#include <memory>
+#include "ReportConverter.h"
 
 int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    FileManager manager;
-    manager.readFile();
+    std::unique_ptr<ReportConverter> converter = std::make_unique<ReportConverter>();
 
     return a.exec();
 }

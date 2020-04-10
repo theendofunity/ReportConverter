@@ -3,13 +3,15 @@
 #include <QFile>
 #include <QString>
 #include <QStandardPaths>
+#include <QJsonObject>
 
 #include <QDebug>
 
 const QString pathToRead = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/Report.json";
 const QString pathToWrite = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/SingleObject.json";
 
-FileManager::FileManager()
+FileManager::FileManager(QObject *parent)
+    : QObject(parent)
 {
 
 }
@@ -34,8 +36,9 @@ void FileManager::readFile()
                 data.push_back(str);
                 QJsonDocument doc(QJsonDocument::fromJson(data));
 
-                writeFile(doc);
-                break;
+                emit newObject(doc.object());
+//                writeFile(doc);
+                break;      //ограничение для теста, затем убрать
             }
 
         }
@@ -46,15 +49,20 @@ void FileManager::readFile()
     file.close();
 }
 
-void FileManager::writeFile(QJsonDocument &doc)
+void FileManager::writeFile(QJsonObject &obj)
 {
     qDebug() << "********************** Writing File **********************";
 
     QFile file (pathToWrite);
     if (file.open(QFile::WriteOnly | QFile::Text))
     {
+        QJsonDocument doc;
+        doc.setObject(obj);
+
         file.write(doc.toJson());
         file.close();
+
+        qDebug() << "********************** Writing Complited **********************";
     }
 }
 
