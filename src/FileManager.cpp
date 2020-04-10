@@ -23,11 +23,13 @@ void FileManager::readFile()
     if (file.open(QFile::ReadOnly | QFile::Text))
     {
         qDebug() << "********************** Reading file **********************";
-        QByteArray data;
 
+
+        QByteArray data;
         while (not file.atEnd())
         {
             auto str = file.readLine();
+
             data.push_back(str);
 
             if (str.contains("turnover"))
@@ -38,9 +40,9 @@ void FileManager::readFile()
 
                 emit newObject(doc.object());
 //                writeFile(doc);
-                break;      //ограничение для теста, затем убрать
+//                break;      //ограничение для теста, затем убрать
+                data.clear();
             }
-
         }
     }
     else
@@ -64,6 +66,8 @@ void FileManager::writeFile(QJsonObject &obj)
 
         qDebug() << "********************** Writing Complited **********************";
     }
+    else
+        qDebug() << "Error! Can not write to file";
 }
 
 
