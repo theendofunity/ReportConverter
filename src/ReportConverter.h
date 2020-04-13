@@ -3,6 +3,7 @@
 
 #include "FileManager.h"
 
+#include <memory>
 #include <QObject>
 
 #include <QJsonArray>
@@ -13,7 +14,7 @@
 class ReportConverter : public QObject
 {
 public:
-    ReportConverter(QObject *parent = nullptr);
+    ReportConverter(std::shared_ptr<FileManager> fileManager, QObject *parent = nullptr);
     ~ReportConverter();
 
 private:
@@ -21,7 +22,7 @@ private:
     void formAndWriteJson();
 
 private:
-    FileManager *fileManager = nullptr;
+    std::shared_ptr<FileManager> fileManager;
 
     QJsonObject report;
 

@@ -4,12 +4,12 @@
 
 #include <algorithm>
 
-ReportConverter::ReportConverter(QObject *parent)
+ReportConverter::ReportConverter(std::shared_ptr<FileManager> fileManager, QObject *parent)
     : QObject(parent)
-    , fileManager(new FileManager(this))
+    , fileManager(fileManager)
 {
-    connect(fileManager, &FileManager::newObject, this, &ReportConverter::addJsonObjectToReport);
-    connect(fileManager, &FileManager::reportEnded, this, &ReportConverter::formAndWriteJson);
+    connect(fileManager.get(), &FileManager::newObject, this, &ReportConverter::addJsonObjectToReport);
+    connect(fileManager.get(), &FileManager::reportEnded, this, &ReportConverter::formAndWriteJson);
 
     fileManager->readFile();
 }

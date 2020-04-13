@@ -2,13 +2,9 @@
 
 #include <QFile>
 #include <QString>
-#include <QStandardPaths>
 #include <QJsonObject>
 
 #include <QDebug>
-
-const QString pathToRead = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/Report.json";
-const QString pathToWrite = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/SingleObject.json";
 
 FileManager::FileManager(QObject *parent)
     : QObject(parent)
@@ -20,7 +16,7 @@ void FileManager::readFile()
 {
     startTime.start();
 
-    QFile file(pathToRead);
+    QFile file(sourcePath);
 
     if (file.open(QFile::ReadOnly | QFile::Text))
     {
@@ -63,7 +59,7 @@ void FileManager::writeFile(QJsonObject &obj)
 {
     qDebug() << "********************** Writing File **********************";
 
-    QFile file (pathToWrite);
+    QFile file (targetPath);
     if (file.open(QFile::WriteOnly | QFile::Text))
     {
         QJsonDocument doc;
@@ -78,6 +74,16 @@ void FileManager::writeFile(QJsonObject &obj)
     }
     else
         qDebug() << "Error! Can not write to file";
+}
+
+void FileManager::setSourcePath(QString path)
+{
+    sourcePath = path;
+}
+
+void FileManager::setTargetPath(QString path)
+{
+    targetPath = path;
 }
 
 

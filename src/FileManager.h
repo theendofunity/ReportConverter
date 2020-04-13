@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include <QJsonDocument>
+#include <QStandardPaths>
 #include <QTime>
 
 class FileManager : public QObject
@@ -15,12 +16,17 @@ public:
     void readFile();
     void writeFile(QJsonObject &obj);
 
+    void setSourcePath(QString path);
+    void setTargetPath(QString path);
 signals:
     void newObject(const QJsonObject &object);
     void reportEnded();
 
 private:
     QTime startTime;
+
+    QString sourcePath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/Report.json";
+    QString targetPath = QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) + "/AircraftReport.json";
 };
 
 #endif // FILEMANAGER_H
