@@ -4,6 +4,7 @@
 #include <QObject>
 
 #include <QJsonDocument>
+#include <QTime>
 
 class FileManager : public QObject
 {
@@ -17,6 +18,9 @@ public:
 signals:
     void newObject(const QJsonObject &object);
     void reportEnded();
+
+private:
+    QTime startTime;
 };
 
 #endif // FILEMANAGER_H
