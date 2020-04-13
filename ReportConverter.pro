@@ -28,4 +28,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     src/FileManager.h \
-    src/ReportConverter.h
+    src/ReportConverter.h \
+    src/ReportModel.h
