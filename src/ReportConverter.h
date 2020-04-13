@@ -17,8 +17,6 @@ public:
     ~ReportConverter();
 
 private:
-    void addJsonObject(const QJsonObject &object);
-
     void addJsonObjectToReport(const QJsonObject &object);
     void formAndWriteJson();
 
