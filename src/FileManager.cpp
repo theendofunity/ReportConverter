@@ -44,6 +44,7 @@ void FileManager::readFile()
                 data.clear();
             }
         }
+        emit reportEnded();
     }
     else
         qDebug() << "Error! Can not read file";

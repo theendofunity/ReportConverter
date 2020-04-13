@@ -16,6 +16,7 @@ public:
 
 signals:
     void newObject(const QJsonObject &object);
+    void reportEnded();
 };
 
 #endif // FILEMANAGER_H

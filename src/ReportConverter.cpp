@@ -7,6 +7,10 @@ ReportConverter::ReportConverter(QObject *parent)
     , fileManager(new FileManager(this))
 {
     connect(fileManager, &FileManager::newObject, this, &ReportConverter::addJsonObject);
+    connect(fileManager, &FileManager::reportEnded, [this]()
+    {
+        fileManager->writeFile(report);
+    });
 
     fileManager->readFile();
 }
@@ -60,7 +64,7 @@ void ReportConverter::addJsonObject(const QJsonObject &object)
                     singleTurnover["CPs"] = coordinatePoints;
 
                     //Копирование и перезапись элемента массива,
-                    //т.к. возможности прямого изменения нет
+                    //т.к. возможности прямого изменения нет (Переход на внутренние структуры?)
 
                     auto newField = report[squawk].toArray();
 
@@ -84,6 +88,4 @@ void ReportConverter::addJsonObject(const QJsonObject &object)
             report[squawk] = turnovers;
         }
     }
-
-    fileManager->writeFile(report);
 }
