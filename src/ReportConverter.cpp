@@ -43,8 +43,8 @@ void ReportConverter::addJsonObjectToReport(const QJsonObject &object)
             }
         }
 
-        auto aircraft = newReport.find(squawk);
-        if(aircraft != newReport.end())
+        auto aircraft = report.find(squawk);
+        if(aircraft != report.end())
         {
             //update
             auto findedTurnover = std::find_if(aircraft.value().begin(), aircraft.value().end(),[turnoverNum](Turnover &turn)
@@ -64,16 +64,16 @@ void ReportConverter::addJsonObjectToReport(const QJsonObject &object)
         {
             //add
             Turnover turnover{turnoverNum, {cpObject}};
-            newReport.insert(squawk, {turnover});
+            report.insert(squawk, {turnover});
         }
     }
 }
 
 void ReportConverter::formAndWriteJson()
 {
-    QJsonObject obj;
+    QList<QJsonObject> objects;
 
-    QMapIterator<QString, QList<Turnover>> it (newReport);
+    QMapIterator<QString, QList<Turnover>> it (report);
 
     while (it.hasNext())
     {
@@ -90,10 +90,12 @@ void ReportConverter::formAndWriteJson()
             aircraft.push_back(turnover);
         }
 
+        QJsonObject obj;
         obj[it.key()] = aircraft;
-    }
+        objects.push_back(obj);
+    }    
 
-    fileManager->writeFile(obj);
+    fileManager->writeFile(objects);
 }
 
 

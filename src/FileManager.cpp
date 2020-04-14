@@ -55,20 +55,23 @@ void FileManager::readFile()
     file.close();
 }
 
-void FileManager::writeFile(QJsonObject &obj)
+void FileManager::writeFile(QList<QJsonObject> &objects)
 {
     qDebug() << "********************** Writing File **********************";
 
     QFile file (targetPath);
-    if (file.open(QFile::WriteOnly | QFile::Text))
+    if (file.open(QFile::Append | QFile::Text))
     {
-        QJsonDocument doc;
-        doc.setObject(obj);
+        for (auto &obj : objects)
+        {
+            QJsonDocument doc;
+            doc.setObject(obj);
 
-        file.write(doc.toJson());
+            file.write(doc.toJson());
+        }
         file.close();
 
-        qDebug() << "********************** Writing Complited **********************";
+        qDebug() << "******************** Writing Complited *******************";
 
         qDebug() << "Commlited in " << startTime.elapsed() << "ms";
     }

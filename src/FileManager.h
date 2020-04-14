@@ -14,7 +14,7 @@ public:
     FileManager(QObject *parent = nullptr);
 
     void readFile();
-    void writeFile(QJsonObject &obj);
+    void writeFile(QList<QJsonObject> &objects);
 
     void setSourcePath(QString path);
     void setTargetPath(QString path);

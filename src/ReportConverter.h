@@ -24,9 +24,7 @@ private:
 private:
     std::shared_ptr<FileManager> fileManager;
 
-    QJsonObject report;
-
-    Report newReport;
+    Report report;
 };
 
 #endif // REPORTCONVERTER_H
